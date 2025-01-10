@@ -4,22 +4,22 @@ import Logo from "./Logo";
 import { useState } from "react";
 import Link from "next/link";
 
-import { FaBars, FaBarsStaggered, FaCartArrowDown } from "react-icons/fa6";
+import { FaBars, FaCartArrowDown } from "react-icons/fa6";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const user = true;
+  const user = false;
 
   const NavLinkList = [
-    { label: "Home", to: "/", icon: <IoHome /> },
-    { label: "Products", to: "/products", icon: <IoHome /> },
-    { label: "About", to: "/about", icon: <IoHome /> },
-    { label: "Contact", to: "/contact", icon: <IoHome /> },
+    { label: "Home", to: "/"},
+    { label: "Shop", to: "/shop" },
+    { label: "About", to: "/about" },
+    { label: "Blog", to: "/blog"},
   ];
   return (
     <nav className="max-w-[1440px] mx-auto ">
-      <div className="flex justify-between items-center ps-4 md:ps-10 lg:ps-28 ">
+      <div className="flex justify-between items-center ps-4 md:ps-10 lg:ps-28 bg-gray-100">
         {/* left */}
         <div className="lg:w-2/12">
           <Logo />
@@ -37,7 +37,7 @@ function Navbar() {
           </div>
         </div>
         {/* right */}
-        <div className="lg:w-5/12 bg-secondary min-h-16 pr-4 md:pr-10 lg:pr-28 flex items-center justify-end">
+        <div className="md:w-5/12 lg:w-5/12 bg-secondary min-h-16 pr-4 md:pr-10 lg:pr-28 flex items-center justify-end">
           <div>
             <div className="flex items-center text-white">
               <span className="hidden lg:block">
@@ -56,25 +56,27 @@ function Navbar() {
                 <span className="ml-1">Cart</span>
               </Link>
 
-              {user ? (
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => {
-                      // handleLogOut();
-                      setMenuOpen(false);
-                    }}
-                    className="my-btn"
-                  >
-                    Log Out
-                  </button>
-                </div>
-              ) : (
-                <div className="flex justify-center">
-                  <Link href="/sign-in" className={""}>
-                    <button className="flex">Sign In</button>
-                  </Link>
-                </div>
-              )}
+              <div className="hidden lg:block">
+                {user ? (
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => {
+                        // handleLogOut();
+                        setMenuOpen(false);
+                      }}
+                      className="my-btn"
+                    >
+                      Log Out
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex justify-center">
+                    <Link href="/sign-in" className={""}>
+                      <button className="my-btn">Sign In</button>
+                    </Link>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
           {/* menubar */}
@@ -131,7 +133,10 @@ function Navbar() {
 
           {NavLinkList.map((item, idx) => (
             <li key={idx} className="list-none">
-              <Link href={item.to} className="navLink-style group hover:bg-gray-200">
+              <Link
+                href={item.to}
+                className="navLink-style group hover:bg-gray-200"
+              >
                 {item.label}
               </Link>
             </li>

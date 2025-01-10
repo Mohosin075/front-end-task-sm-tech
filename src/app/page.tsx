@@ -1,7 +1,11 @@
+import Banner from "@/components/shared/Banner";
+
 const HomePage = () => {
   return (
     <>
-      <div>Home page</div>
+      <div>
+        <Banner/>
+      </div>
     </>
   );
 };
