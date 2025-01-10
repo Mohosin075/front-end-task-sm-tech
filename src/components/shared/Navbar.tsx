@@ -13,7 +13,7 @@ function Navbar() {
 
   const NavLinkList = [
     { label: "Home", to: "/"},
-    { label: "Shop", to: "/shop" },
+    { label: "Shop", to: "/products" },
     { label: "About", to: "/about" },
     { label: "Blog", to: "/blog"},
   ];
@@ -41,7 +41,7 @@ function Navbar() {
           <div>
             <div className="flex items-center text-white">
               <span className="hidden lg:block">
-                <Link href="/my-cart" className={"navLink-style"}>
+                <Link href="/favorite" className={"navLink-style"}>
                   <FaCartArrowDown />
                   <span className="ml-1">Favorite</span>
                 </Link>

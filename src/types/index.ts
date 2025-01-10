@@ -7,3 +7,9 @@ export interface Blog {
   blog_image: string;
   total_likes: string;
 }
+
+export type SectionTitleProps = {
+  subtitle?: string;
+  title?: string;
+  description?: string;
+};

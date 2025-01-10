@@ -18,5 +18,26 @@ export const baseApi = createApi({
       return headers;
     },
   }),
-  endpoints: (builder) => ({}),
+  endpoints: (builder) => ({
+    getProduct: builder.query({
+      query: ({ title, sort, category, page }) => {
+        // const queryParams = new URLSearchParams({
+        //   title: title || "",
+        //   sort: sort || "asc",
+        //   category: category || "",
+        //   page: page || 1,
+        // }).toString();
+
+        // return `/products?${queryParams}`;
+        return `/products`;
+      },
+    }),
+    getCategories: builder.query({
+      query: () => {
+        return `/category`;
+      },
+    }),
+  }),
 });
+
+export const { useGetProductQuery, useGetCategoriesQuery } = baseApi;
