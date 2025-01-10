@@ -15,7 +15,7 @@ function OurProduct() {
   };
 
   return (
-    <div className="my-48 container-space ">
+    <div className="my-20 md:my-48 container-space ">
       <SectionTitle
         title="Our Fresh Products"
         description="We pride ourselves on offering a wide variety of fresh and flavorful fruits, vegetables, and salad ingredients."

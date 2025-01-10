@@ -1,3 +1,4 @@
+import AboutUs from "@/components/aboutUs/AboutUs";
 import OurProduct from "@/components/ourProduct/OurProduct";
 import Banner from "@/components/shared/Banner";
 
@@ -7,6 +8,7 @@ const HomePage = () => {
       <div>
         <Banner/>
         <OurProduct/>
+        <AboutUs/>
       </div>
     </>
   );

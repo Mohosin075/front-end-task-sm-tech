@@ -11,7 +11,7 @@ function Banner() {
           <h3 className="text-secondary text-xs lg:text-sm bg-[#749B3F1A] px-2 py-1 rounded-md inline-block">
             Welcome to Fresh Harvest
           </h3>
-          <h1 className="text-sm  md:text-5xl lg:text-7xl">
+          <h1 className="text-xl  md:text-5xl lg:text-7xl">
             Fresh Fruits and Vegetables
           </h1>
           <p className="text-xs lg:text-xl ">
