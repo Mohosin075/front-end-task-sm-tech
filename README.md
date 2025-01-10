@@ -1,4 +1,4 @@
-# Blogiz-Starter-Pack
+# Front End Task - SM Technology
 
 ## Installation:
 
