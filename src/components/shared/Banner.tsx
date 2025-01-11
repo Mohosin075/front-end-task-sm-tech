@@ -5,7 +5,7 @@ import { FaApple } from "react-icons/fa";
 
 function Banner() {
   return (
-    <div className="min-h-screen  ps-4 md:ps-10 lg:ps-28 bg-gray-100 ">
+    <div className="min-h-screen  ps-4 md:ps-10 lg:ps-28 bg-gray-100 relative overflow-hidden">
       <div className="flex justify-between pt-10 lg:pt-0 items-start lg:items-center min-h-screen gap-10  relative">
         <div className="w-1/2 space-y-4">
           <h3 className="text-secondary text-xs lg:text-sm bg-[#749B3F1A] px-2 py-1 rounded-md inline-block">
@@ -88,6 +88,27 @@ function Banner() {
           />
         </div>
       </div>
+      <Image
+        width={300}
+        height={300}
+        alt=""
+        src="https://i.ibb.co.com/NpT6QSw/Rectangle-removebg-preview.png"
+        className=" absolute top-1/4 -right-32 scale-50 overflow-hidden hidden lg:block"
+      />
+      <Image
+        width={300}
+        height={300}
+        alt=""
+        src="https://i.ibb.co.com/NpT6QSw/Rectangle-removebg-preview.png"
+        className=" absolute -top-10 left-1/3 lg:-left-28  scale-50 overflow-hidden -rotate-90"
+      />
+      <Image
+        width={300}
+        height={300}
+        alt=""
+        src="https://i.ibb.co.com/NpT6QSw/Rectangle-removebg-preview.png"
+        className=" absolute -bottom-16 -left-16  scale-50 overflow-hidden rotate-180"
+      />
     </div>
   );
 }

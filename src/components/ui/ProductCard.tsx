@@ -16,7 +16,7 @@ function ProductCard({ product }) {
         <h2 className="card-title text-lg font-semibold">
           {product.productName}
         </h2>
-        <p className="text-gray-500 text-sm">${product.price}</p>
+        <p className="text-gray-500 text-sm">${product.price}/kg</p>
         <div className=" mt-auto w-full">
           <Link href={`/products/${product.id}`} className={"navLink-style"}>
             <button className="my-btn w-full hover:bg-primary hover:text-white">
