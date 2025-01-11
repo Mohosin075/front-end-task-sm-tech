@@ -35,12 +35,12 @@ const ProductDetailsSlider = ({ product }: { product: Product }) => {
       {/* Main image display with zoom and pan */}
       <div className="md:w-1/2 relative border">
         <TransformWrapper
-          defaultScale={1}
+        //   defaultScale={1}
           minScale={1}
           maxScale={3}
           wheel={{ step: 0.1 }}
-          zoomIn={{ step: 0.1 }}
-          zoomOut={{ step: 0.1 }}
+        //   zoomIn={{ step: 0.1 }}
+        //   zoomOut={{ step: 0.1 }}
         >
           {({ zoomIn, zoomOut, resetTransform }) => (
             <>

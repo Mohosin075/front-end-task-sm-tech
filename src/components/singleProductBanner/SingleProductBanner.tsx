@@ -16,13 +16,6 @@ function SingleProductBanner({category, product}  : BannerProps) {
   return (
     <div className="flex flex-col md:flex-row items-center justify-between gap-5">
           <div className="md:w-1/2">
-            {/* <Image
-              width={200}
-              height={100}
-              alt="image"
-              src={product.images}
-              className=" w-full "
-            /> */}
             <ProductDetails product={product}/>
           </div>
           <div className="md:w-1/2">
@@ -51,13 +44,11 @@ function SingleProductBanner({category, product}  : BannerProps) {
               <div className="text-xl flex items-center gap-6 pt-5">
                 <button className="my-btn w-full">
                   <GiSelfLove />
-                  <span className="ml-1">Favorite</span>
+                  <span className="ml-1">Save to Favorite</span>
                 </button>
                 <button className="my-btn w-full bg-primary text-white">
                   <FaCartArrowDown />
-                  <span className="ml-1">5</span>
-
-                  <span className="ml-1">Cart</span>
+                  <span className="ml-1">Add to Cart</span>
                 </button>
               </div>
             </div>

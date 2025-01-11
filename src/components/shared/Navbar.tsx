@@ -5,6 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { FaBars, FaCartArrowDown } from "react-icons/fa6";
 import { usePathname } from "next/navigation";
+import SocialLogin from "../socialLogin/SocialLogin";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -17,9 +18,27 @@ function Navbar() {
     { label: "Blog", to: "/blog" },
   ];
 
-  const pathname = usePathname(); 
+  const pathname = usePathname();
 
   const isActive = (path: string) => pathname === path;
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isSignIn, setIsSignIn] = useState(true);
+
+  const openModal = () => {
+    setIsOpen(true);
+    setTimeout(() => setIsVisible(true), 10);
+  };
+
+  const closeModal = () => {
+    setIsVisible(false);
+    setTimeout(() => setIsOpen(false), 300);
+  };
+
+  const toggleView = () => {
+    setIsSignIn(!isSignIn);
+  };
 
   return (
     <nav className="max-w-[1440px] mx-auto">
@@ -35,9 +54,7 @@ function Navbar() {
               <li
                 key={idx}
                 className={`list-none rounded-md ${
-                  isActive(item.to)
-                    ? "bg-gray-300"
-                    : "hover:bg-gray-200"
+                  isActive(item.to) ? "bg-gray-300" : "hover:bg-gray-200"
                 }`}
               >
                 <Link href={item.to} className="navLink-style group">
@@ -53,7 +70,7 @@ function Navbar() {
             <div className="flex items-center text-white">
               <span className="hidden lg:block">
                 <Link href="/favorite" className="navLink-style">
-                <GiSelfLove />
+                  <GiSelfLove />
                   <span className="ml-1">Favorite</span>
                 </Link>
               </span>
@@ -69,22 +86,147 @@ function Navbar() {
 
               <div className="hidden lg:block">
                 {user ? (
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => {
-                        // handleLogOut();
-                        setMenuOpen(false);
-                      }}
-                      className="my-btn"
-                    >
-                      Log Out
-                    </button>
+                  <div className="flex flex-col items-center space-y-4">
+                    {/* Log Out Button */}
+                    <div className="flex items-center gap-2 ">
+                      <button
+                        onClick={() => {
+                          setIsOpen(false);
+                        }}
+                        className="my-btn"
+                      >
+                        Log Out
+                      </button>
+                    </div>
                   </div>
                 ) : (
-                  <div className="flex justify-center">
-                    <Link href="/sign-in">
-                      <button className="my-btn">Sign In</button>
-                    </Link>
+                  <div className="flex flex-col items-center space-y-4 md:space-y-0">
+                    {/* Sign In Button */}
+                    <button className="my-btn" onClick={openModal}>
+                      Sign In
+                    </button>
+
+                    {/* Modal */}
+                    {isOpen && (
+                      <div
+                        className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ${
+                          isVisible ? "opacity-100" : "opacity-0"
+                        }`}
+                        onClick={closeModal}
+                      >
+                        <div
+                          className={`bg-white w-11/12 max-w-lg p-6 rounded shadow-lg relative transform transition-transform duration-300 ${
+                            isVisible
+                              ? "scale-100 translate-y-0"
+                              : "scale-95 -translate-y-4"
+                          }`}
+                          onClick={(e) => e.stopPropagation()} // Prevent closing on modal click
+                        >
+                          <div className="modal-action flex justify-end text-black">
+                            <button className="my-btn" onClick={closeModal}>
+                              X
+                            </button>
+                          </div>
+
+                          {/* Modal Content */}
+                          <div className="text-black">
+                            {isSignIn ? (
+                              <div>
+                                <h3 className="font-bold text-lg">Sign In</h3>
+                                <p className="py-4">
+                                  Enter your credentials to sign in to your
+                                  account.
+                                </p>
+                                <button className="my-btn" onClick={toggleView}>
+                                  Go to Sign Up
+                                </button>
+                              </div>
+                            ) : (
+                              <div className="space-y-6">
+                                <h3 className="font-bold text-2xl text-center">
+                                  Register
+                                </h3>
+
+                                {/* Form */}
+                                <form className="space-y-4">
+                                  {/* Full Name */}
+                                  <div>
+                                    <label
+                                      htmlFor="fullName"
+                                      className="block text-sm font-medium text-gray-700"
+                                    >
+                                      Full Name
+                                    </label>
+                                    <input
+                                      type="text"
+                                      id="fullName"
+                                      placeholder="Enter your full name"
+                                      className="input-style"
+                                    />
+                                  </div>
+
+                                  {/* Email */}
+                                  <div>
+                                    <label
+                                      htmlFor="email"
+                                      className="block text-sm font-medium text-gray-700"
+                                    >
+                                      Email Address
+                                    </label>
+                                    <input
+                                      type="email"
+                                      id="email"
+                                      placeholder="Enter your email"
+                                      className="input-style"
+                                    />
+                                  </div>
+
+                                  {/* Password */}
+                                  <div>
+                                    <label
+                                      htmlFor="password"
+                                      className="block text-sm font-medium text-gray-700"
+                                    >
+                                      Password
+                                    </label>
+                                    <input
+                                      type="password"
+                                      id="password"
+                                      placeholder="Create a password"
+                                      className="input-style"
+                                    />
+                                  </div>
+
+                                  {/* Submit Button */}
+                                  <button
+                                    type="submit"
+                                    className="my-btn w-full bg-primary text-white"
+                                  >
+                                    Register
+                                  </button>
+                                </form>
+                                <div className="divider">Or Sign Up with</div>
+                                
+                                  <SocialLogin />
+
+                                {/* Toggle View */}
+                                <div className="text-center">
+                                  <p className="text-sm text-gray-600">
+                                    Already have an account?{" "}
+                                    <button
+                                      className="text-primary hover:underline focus:outline-none"
+                                      onClick={toggleView}
+                                    >
+                                      Log In
+                                    </button>
+                                  </p>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -145,9 +287,7 @@ function Navbar() {
             <li
               key={idx}
               className={`list-none ${
-                isActive(item.to)
-                  ? "bg-gray-300"
-                  : "hover:bg-gray-200"
+                isActive(item.to) ? "bg-gray-300" : "hover:bg-gray-200"
               }`}
             >
               <Link
