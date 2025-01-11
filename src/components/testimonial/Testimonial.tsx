@@ -68,6 +68,21 @@ function Testimonial() {
           </SwiperSlide>
         ))}
       </Swiper>
+
+      <Image
+        width={300}
+        height={300}
+        alt=""
+        src="https://i.ibb.co.com/NpT6QSw/Rectangle-removebg-preview.png"
+        className=" absolute -top-20  scale-[0.20]  overflow-hidden rotate-45 "
+      />
+      <Image
+        width={300}
+        height={300}
+        alt=""
+        src="https://i.ibb.co.com/NpT6QSw/Rectangle-removebg-preview.png"
+        className=" absolute -top-20 right-0  scale-[0.20]  overflow-hidden"
+      />
     </div>
   );
 }
