@@ -2,6 +2,7 @@
 import SectionTitle from "@/components/shared/SectionTitle";
 import ProductCard from "@/components/ui/ProductCard";
 import { useGetCategoriesQuery, useGetProductQuery } from "@/redux/api/baseApi";
+import { Category, Product } from "@/types";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -32,7 +33,7 @@ function ProductsPage() {
           >
             All
           </a>
-          {categories?.data?.map((cat) => (
+          {categories?.data?.map((cat : Category) => (
             <a
               key={cat.id}
               role="tab"
@@ -48,7 +49,7 @@ function ProductsPage() {
       </div>
       {/* products */}
       <div className="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4  gap-5 my-5">
-        {products?.data?.map((product) => (
+        {products?.data?.map((product : Product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>

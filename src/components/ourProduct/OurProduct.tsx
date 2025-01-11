@@ -5,6 +5,7 @@ import SectionTitle from "../shared/SectionTitle";
 import ProductCard from "../ui/ProductCard";
 import Link from "next/link";
 import Image from "next/image";
+import { Category, Product } from "@/types";
 
 function OurProduct() {
   const { data: products, isLoading } = useGetProductQuery("");
@@ -34,7 +35,7 @@ function OurProduct() {
           >
             All
           </a>
-          {categories?.data?.map((cat) => (
+          {categories?.data?.map((cat : Category) => (
             <a
               key={cat.id}
               role="tab"
@@ -50,7 +51,7 @@ function OurProduct() {
       </div>
       {/* products */}
       <div className="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4  gap-5 my-5">
-        {products?.data?.slice(0, 8).map((product) => (
+        {products?.data?.slice(0, 8).map((product : Product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>

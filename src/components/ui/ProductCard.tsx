@@ -1,7 +1,8 @@
+import { Product } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
-function ProductCard({ product }) {
+function ProductCard({ product } : {product : Product}) {
   return (
     <div className="card bg-base-100 shadow-xl h-68  md:h-96">
       <figure className="relative w-full h-48 overflow-hidden bg-gray-100 rounded-t-xl">

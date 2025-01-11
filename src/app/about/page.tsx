@@ -1,7 +1,9 @@
+
+import AboutUs from "@/components/aboutUs/AboutUs";
 const AboutPage = () => {
   return (
-    <div className="mt-10">
-      <h1 className="">about page</h1>
+    <div className="my-10">
+      <AboutUs />
     </div>
   );
 };

@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -64,7 +65,7 @@ function AboutUs() {
             revolutionize your grocery shopping experience.
           </p>
         </div>
-        <Link href="/about-details" className={"navLink-style"}>
+        <Link href="/about" className={`navLink-style`}>
           <button className="my-btn text-primary border-primary hover:bg-primary hover:text-white">
             Read More
           </button>

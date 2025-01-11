@@ -18,7 +18,7 @@ const Footer = () => {
             <Logo />
             <div className="mt-10">
               <h4 className="text-xl lg:text-2xl">Download App:</h4>
-              <div className="flex text-xl  items-center  gap-6">
+              <div className="md:flex text-xl  items-center  gap-6 space-y-3 md:space-y-0">
                 <div className="flex items-center gap-3 bg-black p-3 rounded-md text-white ">
                   <FaApple />
                   <div>

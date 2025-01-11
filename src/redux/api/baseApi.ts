@@ -32,12 +32,23 @@ export const baseApi = createApi({
         return `/products`;
       },
     }),
+    getSingleProduct: builder.query({
+      query: ({productId}) => {
+        return `/products/${productId}`;
+      },
+    }),
     getCategories: builder.query({
       query: () => {
         return `/category`;
       },
     }),
+    getSingleCategories: builder.query({
+      query: ({categoryId}) => {
+        console.log(categoryId);
+        return `/category/${categoryId}`;
+      },
+    }),
   }),
 });
 
-export const { useGetProductQuery, useGetCategoriesQuery } = baseApi;
+export const { useGetProductQuery, useGetCategoriesQuery, useGetSingleProductQuery , useGetSingleCategoriesQuery} = baseApi;
