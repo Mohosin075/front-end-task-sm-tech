@@ -12,6 +12,7 @@ import { useAppDispatch } from "@/redux/hooks";
 import { logout } from "@/redux/features/auth/authSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import Image from "next/image";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -34,6 +35,7 @@ function Navbar() {
   const dispatch = useAppDispatch();
 
   const { user, token } = useSelector((state: RootState) => state.auth);
+  const {data : profile} = useGetProfileQuery();
 
   const openModal = () => {
     setIsOpen(true);
@@ -55,10 +57,10 @@ function Navbar() {
     dispatch(baseApi.util.invalidateTags(["Profile"]));
   };
 
-  const handleSignIn =()=>{
-    setMenuOpen(false)
-    openModal()
-  }
+  const handleSignIn = () => {
+    setMenuOpen(false);
+    openModal();
+  };
 
   return (
     <nav className="max-w-[1440px] mx-auto relative">
@@ -108,10 +110,54 @@ function Navbar() {
                 {token ? (
                   <div className="flex flex-col items-center space-y-4">
                     {/* Log Out Button */}
-                    <div className="flex items-center gap-2 ">
-                      <button onClick={handleLogOut} className="my-btn">
-                        Log Out
-                      </button>
+                    <div className="flex items-center gap-2 ms-2">
+                      <div className="dropdown dropdown-left dropdown-bottom">
+                        <div
+                          tabIndex={0}
+                          role="button"
+                          className="rounded-full"
+                        >
+                          <div className="avatar online">
+                            <div className="ring-primary ring-offset-base-100 w-10 rounded-full ring ring-offset-2">
+                              <Image
+                                width={500}
+                                height={300}
+                                src={ profile?.data?.profileImage || 
+                                  "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                                }
+                                alt="Profile"
+                                className="object-cover w-full h-full"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          tabIndex={0}
+                          className="dropdown-content bg-white text-black z-[1] w-64 p-2 shadow rounded-md"
+                        >
+                          <div className="card-body text-black">
+                            <div className="mb-2 space-y-2">
+                              <li
+                                className={`list-none rounded-md ${
+                                  isActive("/profile")
+                                    ? "bg-gray-300"
+                                    : "hover:bg-gray-200"
+                                }`}
+                              >
+                                <Link
+                                  href="/profile"
+                                  className="navLink-style group"
+                                >
+                                  Profile
+                                </Link>
+                              </li>
+                            </div>
+                            <button onClick={handleLogOut} className="my-btn">
+                              Log Out
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ) : (
@@ -177,62 +223,104 @@ function Navbar() {
         </div>
       </div>
 
-{/* Sidebar Menu (Mobile) */}
-<div
-  className={`fixed top-0 left-0 w-64 h-full  transform ${
-    menuOpen ? "translate-x-0 " : "-translate-x-full"
-  } transition-transform duration-300 ease-in-out z-50 bg-white`}
->
-  <div className="flex justify-end px-2">
-    <button className="text-2xl p-3" onClick={() => setMenuOpen(false)}>
-      ✕
-    </button>
-  </div>
-
-  <div className="flex flex-col space-y-2 p-4">
-    {!token ? (
-      <div className="flex flex-col items-center space-y-4 md:space-y-0">
-        {/* Sign In Button */}
-        <button className="my-btn w-full" onClick={handleSignIn}>
-          Sign In
-        </button>
-
-        
-      </div>
-    ) : (
-      <div className="flex flex-col items-center gap-4">
-        <button onClick={handleLogOut} className="my-btn w-full">
-          Log Out
-        </button>
-      </div>
-    )}
-
-    <div className="divider"></div>
-
-    {NavLinkList.map((item, idx) => (
-      <li
-        key={idx}
-        className={`list-none ${
-          isActive(item.to) ? "bg-gray-300" : "hover:bg-gray-200"
-        }`}
+      {/* Sidebar Menu (Mobile) */}
+      <div
+        className={`fixed top-0 left-0 w-64 h-full  transform ${
+          menuOpen ? "translate-x-0 " : "-translate-x-full"
+        } transition-transform duration-300 ease-in-out z-50 bg-white`}
       >
-        <Link
-          href={item.to}
-          onClick={() => setMenuOpen(false)}
-          className="navLink-style group"
-        >
-          {item.label}
-        </Link>
-      </li>
-    ))}
-  </div>
-</div>
+        <div className="flex justify-end px-2">
+          <button className="text-2xl p-3" onClick={() => setMenuOpen(false)}>
+            ✕
+          </button>
+        </div>
 
+        <div className="flex flex-col space-y-2 p-4">
+          {!token ? (
+            <div className="flex flex-col items-center space-y-4 md:space-y-0">
+              {/* Sign In Button */}
+              <button className="my-btn w-full" onClick={handleSignIn}>
+                Sign In
+              </button>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center gap-4">
+              <div className="flex items-center gap-2 ms-2">
+                      <div className="dropdown  dropdown-bottom">
+                        <div
+                          tabIndex={0}
+                          role="button"
+                          className="rounded-full"
+                        >
+                          <div className="avatar online">
+                            <div className="ring-primary ring-offset-base-100 w-16 rounded-full ring ring-offset-2">
+                              <Image
+                                width={500}
+                                height={300}
+                                src={profile?.data?.profileImage || 
+                                  "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                                }
+                                alt="Profile"
+                                className="object-cover w-full h-full"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          tabIndex={0}
+                          className="dropdown-content bg-white text-black z-[1] w-64 p-2 shadow rounded-md"
+                        >
+                          <div className="card-body text-black">
+                            <div className="mb-2 space-y-2">
+                              <li
+                                className={`list-none rounded-md ${
+                                  isActive("/profile")
+                                    ? "bg-gray-300"
+                                    : "hover:bg-gray-200"
+                                }`}
+                              >
+                                <Link
+                                  href="/profile"
+                                  className="navLink-style group"
+                                >
+                                  Profile
+                                </Link>
+                              </li>
+                            </div>
+                            <button onClick={handleLogOut} className="my-btn">
+                              Log Out
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+            </div>
+          )}
 
-<span className="block md:hidden">
+          <div className="divider"></div>
 
-  {/* Full-screen Modal */}
-{isOpen && (
+          {NavLinkList.map((item, idx) => (
+            <li
+              key={idx}
+              className={`list-none ${
+                isActive(item.to) ? "bg-gray-300" : "hover:bg-gray-200"
+              }`}
+            >
+              <Link
+                href={item.to}
+                onClick={() => setMenuOpen(false)}
+                className="navLink-style group"
+              >
+                {item.label}
+              </Link>
+            </li>
+          ))}
+        </div>
+      </div>
+
+      <span className="block md:hidden">
+        {/* Full-screen Modal */}
+        {isOpen && (
           <div
             className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ${
               isVisible ? "opacity-100" : "opacity-0"
@@ -240,7 +328,9 @@ function Navbar() {
           >
             <div
               className={`bg-white w-full h-full p-2 rounded shadow-lg relative transform transition-transform duration-300 ${
-                isVisible ? "scale-100 translate-y-0" : "scale-95 -translate-y-4"
+                isVisible
+                  ? "scale-100 translate-y-0"
+                  : "scale-95 -translate-y-4"
               }`}
               onClick={(e) => e.stopPropagation()} // Prevent closing on modal click
             >
@@ -265,7 +355,7 @@ function Navbar() {
             </div>
           </div>
         )}
-</span>
+      </span>
 
       {/* Overlay for mobile menu */}
       {menuOpen && (

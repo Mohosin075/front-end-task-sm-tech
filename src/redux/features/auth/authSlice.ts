@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 
 export type TUser = {
-  userId: string;
+  id: string;
+  email : string;
   role: string;
   iat: number;
   exp: number;

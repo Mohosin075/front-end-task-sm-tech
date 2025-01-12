@@ -2,7 +2,7 @@ import { SectionTitleProps } from "@/types";
 
 function SectionTitle({ subtitle, title, description }: SectionTitleProps) {
   return (
-    <div className="text-center space-y-1 md:w-6/12 mx-auto px-4">
+    <div className="text-center space-y-1 md:w-7/12 mx-auto px-4">
       <h3 className="text-secondary text-sm lg:text-xl bg-[#749B3F1A] px-2 py-1 rounded-md inline-block font-semibold">
         {subtitle}
       </h3>

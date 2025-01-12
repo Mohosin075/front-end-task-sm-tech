@@ -38,6 +38,17 @@ export const baseApi = createApi({
         };
       },
     }),
+    updateProfile: builder.mutation({
+      query: ({ userData }) => {
+        return {
+          url: `/users/profile`,
+          method: "PUT",
+          body: userData ,
+        };
+        
+      },
+      invalidatesTags : ['Profile']
+    }),
     getProduct: builder.query({
       query: () => {
         return `/products`;
@@ -71,4 +82,7 @@ export const baseApi = createApi({
   }),
 });
 
-export const {useGetProfileQuery, useLoginUserMutation,useRegisterUserMutation, useGetProductQuery, useGetCategoriesQuery, useGetSingleProductQuery , useGetSingleCategoriesQuery} = baseApi;
+export const {
+  useUpdateProfileMutation,
+  useGetProfileQuery, 
+  useLoginUserMutation,useRegisterUserMutation, useGetProductQuery, useGetCategoriesQuery, useGetSingleProductQuery , useGetSingleCategoriesQuery} = baseApi;

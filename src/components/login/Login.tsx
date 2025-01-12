@@ -1,13 +1,12 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import SocialLogin from "../socialLogin/SocialLogin";
 import {
-  useGetProductQuery,
-  useGetProfileQuery,
   useLoginUserMutation,
 } from "@/redux/api/baseApi";
 import { toast } from "sonner";
 import { useAppDispatch } from "@/redux/hooks";
 import { setUser } from "@/redux/features/auth/authSlice";
+import { jwtDecode } from "jwt-decode";
 
 interface ModalProps {
   toggleView: () => void;
@@ -24,7 +23,6 @@ function Login({ toggleView, setIsOpen }: ModalProps) {
   const { register, handleSubmit } = useForm<LoginFormInputs>();
 
   const [loginUser] = useLoginUserMutation();
-  const { data: profile } = useGetProfileQuery("");
 
   const dispatch = useAppDispatch();
 
@@ -37,7 +35,9 @@ function Login({ toggleView, setIsOpen }: ModalProps) {
       if (token) {
         toast.success(res?.data?.message || "Logged In");
 
-        dispatch(setUser({ token, user: profile?.data?.email || null }));
+         const decoded = jwtDecode(token);
+
+        dispatch(setUser({ token, user: decoded }));
 
         setIsOpen(false);
       }
