@@ -11,7 +11,7 @@ The **Fresh Harvest eCommerce website** allows users to browse and purchase fres
 ## Technologies Used
 
 - **Frontend**: React, Next.js, TypeScript, Redux, Tailwind CSS
-- **Backend API**: (Link to the backend or mention the technology used for your backend)
+- **Backend API**: https://api-fresh-harvest.code-commando.com/
 - **State Management**: Redux Toolkit
 - **API**: RTK Query for efficient API calls and caching
 - **Authentication**: JWT Token for secure user authentication
