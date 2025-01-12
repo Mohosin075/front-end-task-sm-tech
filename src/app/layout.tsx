@@ -5,6 +5,7 @@ import Footer from "@/components/shared/Footer";
 import Providers from "@/lib/Providers";
 import Navbar from "@/components/shared/Navbar";
 import Head from "next/head";
+import { Toaster } from "sonner";
 
 const rubik = Rubik({
   weight: "400",
@@ -30,6 +31,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </Head>
         <body className={rubik.className}>
+        <Toaster />
           <Navbar />
           <div className="min-h-screen max-w-[1440px] mx-auto">{children}</div>
           <Footer />

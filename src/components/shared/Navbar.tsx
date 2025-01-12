@@ -5,13 +5,16 @@ import { useState } from "react";
 import Link from "next/link";
 import { FaBars, FaCartArrowDown } from "react-icons/fa6";
 import { usePathname } from "next/navigation";
-import SocialLogin from "../socialLogin/SocialLogin";
 import Login from "../login/Login";
 import Register from "../register/Register";
+import { baseApi, useGetProfileQuery } from "@/redux/api/baseApi";
+import { useAppDispatch } from "@/redux/hooks";
+import { logout } from "@/redux/features/auth/authSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const user = false;
 
   const NavLinkList = [
     { label: "Home", to: "/" },
@@ -28,6 +31,10 @@ function Navbar() {
   const [isVisible, setIsVisible] = useState(false);
   const [isSignIn, setIsSignIn] = useState(true);
 
+  const dispatch = useAppDispatch();
+
+  const { user, token } = useSelector((state: RootState) => state.auth);
+
   const openModal = () => {
     setIsOpen(true);
     setTimeout(() => setIsVisible(true), 10);
@@ -42,8 +49,19 @@ function Navbar() {
     setIsSignIn(!isSignIn);
   };
 
+  const handleLogOut = () => {
+    setIsOpen(false);
+    dispatch(logout());
+    dispatch(baseApi.util.invalidateTags(["Profile"]));
+  };
+
+  const handleSignIn =()=>{
+    setMenuOpen(false)
+    openModal()
+  }
+
   return (
-    <nav className="max-w-[1440px] mx-auto">
+    <nav className="max-w-[1440px] mx-auto relative">
       <div className="flex justify-between items-center ps-4 md:ps-10 lg:ps-28 bg-gray-100">
         {/* left */}
         <div className="lg:w-2/12">
@@ -87,16 +105,11 @@ function Navbar() {
               </Link>
 
               <div className="hidden lg:block">
-                {user ? (
+                {token ? (
                   <div className="flex flex-col items-center space-y-4">
                     {/* Log Out Button */}
                     <div className="flex items-center gap-2 ">
-                      <button
-                        onClick={() => {
-                          setIsOpen(false);
-                        }}
-                        className="my-btn"
-                      >
+                      <button onClick={handleLogOut} className="my-btn">
                         Log Out
                       </button>
                     </div>
@@ -114,7 +127,6 @@ function Navbar() {
                         className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ${
                           isVisible ? "opacity-100" : "opacity-0"
                         }`}
-                        onClick={closeModal}
                       >
                         <div
                           className={`bg-white w-11/12 max-w-lg p-6 rounded shadow-lg relative transform transition-transform duration-300 ${
@@ -133,9 +145,16 @@ function Navbar() {
                           {/* Modal Content */}
                           <div className="text-black">
                             {isSignIn ? (
-                              <Login toggleView={toggleView}/>
+                              <Login
+                                toggleView={toggleView}
+                                setIsOpen={setIsOpen}
+                              />
                             ) : (
-                              <Register toggleView={toggleView}/>
+                              <Register
+                                toggleView={toggleView}
+                                isSignIn={isSignIn}
+                                setIsSignIn={setIsSignIn}
+                              />
                             )}
                           </div>
                         </div>
@@ -158,63 +177,95 @@ function Navbar() {
         </div>
       </div>
 
-      {/* Sidebar Menu (Mobile) */}
-      <div
-        className={`fixed top-0 left-0 h-full w-64 transform ${
-          menuOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300 ease-in-out z-50 bg-white`}
-      >
-        <div className="flex justify-end px-2">
-          <button className="text-2xl p-3" onClick={() => setMenuOpen(false)}>
-            ✕
-          </button>
-        </div>
+{/* Sidebar Menu (Mobile) */}
+<div
+  className={`fixed top-0 left-0 w-64 h-full  transform ${
+    menuOpen ? "translate-x-0 " : "-translate-x-full"
+  } transition-transform duration-300 ease-in-out z-50 bg-white`}
+>
+  <div className="flex justify-end px-2">
+    <button className="text-2xl p-3" onClick={() => setMenuOpen(false)}>
+      ✕
+    </button>
+  </div>
 
-        <div className="flex flex-col space-y-2 p-4">
-          {!user ? (
-            <div className="flex justify-between items-center gap-3 text-center">
-              <Link
-                href="/sign-in"
-                onClick={() => setMenuOpen(false)}
-                className="my-btn w-full"
-              >
-                Sign In
-              </Link>
-            </div>
-          ) : (
-            <div className="flex flex-col items-center gap-4">
-              <button
-                onClick={() => {
-                  // handleLogOut();
-                  setMenuOpen(false);
-                }}
-                className="my-btn"
-              >
-                Log Out
-              </button>
-            </div>
-          )}
+  <div className="flex flex-col space-y-2 p-4">
+    {!token ? (
+      <div className="flex flex-col items-center space-y-4 md:space-y-0">
+        {/* Sign In Button */}
+        <button className="my-btn w-full" onClick={handleSignIn}>
+          Sign In
+        </button>
 
-          <div className="divider"></div>
-
-          {NavLinkList.map((item, idx) => (
-            <li
-              key={idx}
-              className={`list-none ${
-                isActive(item.to) ? "bg-gray-300" : "hover:bg-gray-200"
-              }`}
-            >
-              <Link
-                href={item.to}
-                onClick={() => setMenuOpen(false)}
-                className="navLink-style group"
-              >
-                {item.label}
-              </Link>
-            </li>
-          ))}
-        </div>
+        
       </div>
+    ) : (
+      <div className="flex flex-col items-center gap-4">
+        <button onClick={handleLogOut} className="my-btn w-full">
+          Log Out
+        </button>
+      </div>
+    )}
+
+    <div className="divider"></div>
+
+    {NavLinkList.map((item, idx) => (
+      <li
+        key={idx}
+        className={`list-none ${
+          isActive(item.to) ? "bg-gray-300" : "hover:bg-gray-200"
+        }`}
+      >
+        <Link
+          href={item.to}
+          onClick={() => setMenuOpen(false)}
+          className="navLink-style group"
+        >
+          {item.label}
+        </Link>
+      </li>
+    ))}
+  </div>
+</div>
+
+
+<span className="block md:hidden">
+
+  {/* Full-screen Modal */}
+{isOpen && (
+          <div
+            className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ${
+              isVisible ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <div
+              className={`bg-white w-full h-full p-2 rounded shadow-lg relative transform transition-transform duration-300 ${
+                isVisible ? "scale-100 translate-y-0" : "scale-95 -translate-y-4"
+              }`}
+              onClick={(e) => e.stopPropagation()} // Prevent closing on modal click
+            >
+              <div className="modal-action flex justify-end text-black">
+                <button className="my-btn" onClick={closeModal}>
+                  X
+                </button>
+              </div>
+
+              {/* Modal Content */}
+              <div className="text-black h-full flex items-center justify-center">
+                {isSignIn ? (
+                  <Login toggleView={toggleView} setIsOpen={setIsOpen} />
+                ) : (
+                  <Register
+                    toggleView={toggleView}
+                    isSignIn={isSignIn}
+                    setIsSignIn={setIsSignIn}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+</span>
 
       {/* Overlay for mobile menu */}
       {menuOpen && (

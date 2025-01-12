@@ -18,19 +18,38 @@ export const baseApi = createApi({
       return headers;
     },
   }),
+  tagTypes: ["Products", "Categories", "Profile"], 
   endpoints: (builder) => ({
+    registerUser: builder.mutation({
+      query: ({ userData }) => {
+        return {
+          url: `/users/register`,
+          method: "POST",
+          body: userData ,
+        };
+      },
+    }),
+    loginUser: builder.mutation({
+      query: ({ userData }) => {
+        return {
+          url: `/auth/login`,
+          method: "POST",
+          body: userData ,
+        };
+      },
+    }),
     getProduct: builder.query({
-      query: ({ title, sort, category, page }) => {
-        // const queryParams = new URLSearchParams({
-        //   title: title || "",
-        //   sort: sort || "asc",
-        //   category: category || "",
-        //   page: page || 1,
-        // }).toString();
-
-        // return `/products?${queryParams}`;
+      query: () => {
         return `/products`;
       },
+      providesTags: ["Products"]
+    }),
+    getProfile: builder.query({
+      query: () => {
+        return `/auth/profile`;
+      },
+      providesTags: ["Profile"]
+      
     }),
     getSingleProduct: builder.query({
       query: ({productId}) => {
@@ -41,6 +60,7 @@ export const baseApi = createApi({
       query: () => {
         return `/category`;
       },
+      providesTags: ["Categories"]
     }),
     getSingleCategories: builder.query({
       query: ({categoryId}) => {
@@ -51,4 +71,4 @@ export const baseApi = createApi({
   }),
 });
 
-export const { useGetProductQuery, useGetCategoriesQuery, useGetSingleProductQuery , useGetSingleCategoriesQuery} = baseApi;
+export const {useGetProfileQuery, useLoginUserMutation,useRegisterUserMutation, useGetProductQuery, useGetCategoriesQuery, useGetSingleProductQuery , useGetSingleCategoriesQuery} = baseApi;

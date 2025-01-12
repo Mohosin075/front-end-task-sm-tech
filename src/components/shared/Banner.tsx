@@ -19,7 +19,7 @@ function Banner() {
             freshest and most flavorful fruits and vegetables
           </p>
 
-          <Link href="/shop" className={"navLink-style"}>
+          <Link href="/products" className={"navLink-style"}>
             <button className="my-btn bg-primary text-white">Shop now</button>
           </Link>
 
